@@ -13,9 +13,15 @@ func Cat(cmd *cobra.Command, args []string) {
 	if len(args) == 0 {
 		fmt.Println("no file provided")
 		os.Exit(1)
+	} else{
+	for _, path := range(args) {
+		readFile(path)
 	}
-	if len(args) == 1 {
-		content, err := os.Open(args[0])
+}
+}
+
+func readFile(name string)  {
+	content, err := os.Open(name)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
@@ -29,5 +35,4 @@ func Cat(cmd *cobra.Command, args []string) {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-	}
 }
