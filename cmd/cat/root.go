@@ -7,15 +7,17 @@ import (
 	"github.com/monegim/cat/pkg/cat"
 	"github.com/spf13/cobra"
 )
+
 var version = "0.0.1"
+var n bool
 
 var rootCmd = &cobra.Command{
-	Use:   "cat",
-	Short: "cat - cat a file",
-	Long:  "It acts like linux cat",
-	Args: cobra.ArbitraryArgs,
+	Use:     "cat",
+	Short:   "cat - cat a file",
+	Long:    "It acts like linux cat",
+	Args:    cobra.ArbitraryArgs,
 	Version: version,
-	Run: cat.Cat,
+	Run:     cat.Cat,
 }
 
 func Execute() {
@@ -23,4 +25,9 @@ func Execute() {
 		fmt.Fprintf(os.Stderr, "Whoops. There was an error while executing your CLI '%s'", err)
 		os.Exit(1)
 	}
+}
+
+func init() {
+	// rootCmd.PersistentFlags().BoolVarP(&n, "name", "n", false, "number all output lines")
+	rootCmd.PersistentFlags().BoolP("name", "n", false, "number all output lines")
 }

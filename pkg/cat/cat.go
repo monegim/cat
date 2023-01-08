@@ -10,6 +10,10 @@ import (
 
 // type
 func Cat(cmd *cobra.Command, args []string) {
+	n, _:= cmd.Flags().GetBool("name")
+	if n{
+		
+	}
 	if len(args) == 0 {
 		fmt.Println("no file provided")
 		os.Exit(1)
