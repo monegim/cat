@@ -22,7 +22,8 @@ func Cat(cmd *cobra.Command, args []string) {
 			f.n = 0
 		}
 		for i := 0; i < len(args); i++ {
-			readFile(*f)
+			f.name = args[i]
+			f.readFile()
 			// f.n = last_line
 		}
 	}
@@ -33,7 +34,7 @@ type file struct {
 	n    int
 }
 
-func readFile(f file) {
+func (f *file) readFile() {
 	content, err := os.Open(f.name)
 	if err != nil {
 		fmt.Println(err)
@@ -43,11 +44,10 @@ func readFile(f file) {
 	scanner := bufio.NewScanner(content)
 	for scanner.Scan() {
 		if f.n == 0 {
-
+			fmt.Println(scanner.Text())
+		} else {
 			fmt.Println(f.n, " ", scanner.Text())
 			f.n++
-		} else {
-			fmt.Println(scanner.Text())
 
 		}
 	}
