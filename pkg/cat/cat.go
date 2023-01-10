@@ -10,22 +10,31 @@ import (
 
 // type
 func Cat(cmd *cobra.Command, args []string) {
-	n, _:= cmd.Flags().GetBool("name")
-	if n{
-		
-	}
+	n, _ := cmd.Flags().GetBool("name")
 	if len(args) == 0 {
 		fmt.Println("no file provided")
 		os.Exit(1)
 	} else {
+		f := &file{}
+		if n {
+			f.n = 1
+		} else {
+			f.n = 0
+		}
 		for i := 0; i < len(args); i++ {
-			readFile(args[i])
+			readFile(*f)
+			// f.n = last_line
 		}
 	}
 }
 
-func readFile(name string) {
-	content, err := os.Open(name)
+type file struct {
+	name string
+	n    int
+}
+
+func readFile(f file) {
+	content, err := os.Open(f.name)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -33,7 +42,14 @@ func readFile(name string) {
 	defer content.Close()
 	scanner := bufio.NewScanner(content)
 	for scanner.Scan() {
-		fmt.Println(scanner.Text())
+		if f.n == 0 {
+
+			fmt.Println(f.n, " ", scanner.Text())
+			f.n++
+		} else {
+			fmt.Println(scanner.Text())
+
+		}
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Println(err)
